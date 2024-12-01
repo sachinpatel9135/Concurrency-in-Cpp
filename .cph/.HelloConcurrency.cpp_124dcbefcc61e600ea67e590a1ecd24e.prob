@@ -1,0 +1,1 @@
+{"name":"Local: HelloConcurrency","url":"/Users/sachinpatel/Concurrency/Concurrency-in-Cpp/HelloConcurrency.cpp","tests":[{"id":1733077219736,"input":"","output":"Hello concurrency world!"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/sachinpatel/Concurrency/Concurrency-in-Cpp/HelloConcurrency.cpp","group":"local","local":true}
