@@ -1,0 +1,128 @@
+/*
+https://github.com/goyal27/cache-lld/tree/master
+Design LRU (Static + Dynamic Input Flow)
+Follow Up : Implement LFU with Least Changes in the previous design (LRU)
+
+Cache
+- get(key) -> value
+- set(key, value) -> create new/update old
+- cache capacity
+
+LRU - 
+
+LFU - 
+
+
+
+LRU strategy
+get -> key 
+unordered_map<key,value> cache, keyToPositionInList
+LinkedList -> [3,4,5]
+get(3)
+List -> [4,5,3]
+size = 3
+set(6,8)
+[5,3,6]
+
+LFU strategy
+freq -> list[keys]
+minFreq -> cur minimum frequency
+{{3-3},{4-3},{5-3},{6-4}}
+
+
+get(3)
+{{4-3},{3-4},{5-3},{6-4}}
+{1-1,2-1,3-1,4-1,5-1}
+
+abstract class cache -> setSize(), get(key)->value, set(key, value)
+unordered_map<key,value>
+
+freq-1 -> key
+freq -> key
+minimum
+
+get -> virtual method
+set -> virtual method
+
+{3-3,4-3,5-3,6-4}
+
+
+*/
+EvictionPolicy {
+    updateEviction();
+}
+
+LruEvictionPolicy extend EvictionPolicy {
+    list<int> keys;
+    unordered_map<int, list<int>::iterator> keyPosition;
+    updateEviction(key, capacity) {
+        if(keys.size() >= capacity) {
+            auto it = key.begin();
+            keys.erase(*it);
+        }
+        -1;
+    }
+}
+
+LFUEvictionPolicy extend EvictionPolicy {
+    unordered_map<int, vector<int>> freqKeyList;
+    updateEviction(key, capacity) {
+        -1;
+    }
+}
+
+class Cache {
+    EvictionPolicy evictionPolicy;
+    unordered_map<int,int> cache; //key value pair
+    setCapacity(EvictionPolicy evictionPolicy) {
+        this.evictionPolicy = evictionPolicy;
+    }
+
+    setPolicy()
+    get(key) {
+        if(cache.find(key) == cache.end())  return -1;
+        keyToBeRemoved = evictionPolicy.updateEviction(key, capacity);
+        cache.erase(keyToBeRemoved);
+        return cache[key];
+    }
+
+    put(key, value) {
+        keyToBeRemoved = evictionPolicy.updateEviction(key, capacity);
+        cache.erase(keyToBeRemoved);
+        cache[key] = value;
+    }
+};
+
+/*
+#include <iostream>
+#include <string>
+using namespace std;
+
+int longestVowelSubsequence(const string& s) {
+    int count_a = 0, count_e = 0, count_i = 0, count_o = 0, count_u = 0;
+
+    for (char ch : s) {
+        if (ch == 'a') {
+            count_a++;  // Increment for every 'a'
+        } else if (ch == 'e' && count_a > 0) {
+            count_e = max(count_e, count_a) + 1;  // Extend subsequence ending with 'a'
+        } else if (ch == 'i' && count_e > 0) {
+            count_i = max(count_i, count_e) + 1;  // Extend subsequence ending with 'e'
+        } else if (ch == 'o' && count_i > 0) {
+            count_o = max(count_o, count_i) + 1;  // Extend subsequence ending with 'i'
+        } else if (ch == 'u' && count_o > 0) {
+            count_u = max(count_u, count_o) + 1;  // Extend subsequence ending with 'o'
+        }
+    }
+
+    return count_u;  // The length of the longest subsequence ending with 'u'
+}
+
+
+aaae
+cnta = 3
+cnte = 3+1 = 4
+aaaee = 5
+aaaeei = counti = 6
+aaaeeieeiou
+*/
